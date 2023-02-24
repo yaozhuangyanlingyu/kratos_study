@@ -7,6 +7,8 @@ import (
 )
 
 func (s *OrderService) ListOrder(ctx context.Context, req *pb.ListOrderRequest) (*pb.ListOrderReply, error) {
+	req.PageNum = 1
+	req.PageSize = 10
 	rv, err := s.oc.List(ctx, req.PageNum, req.PageSize)
 	if err != nil {
 		return nil, err
