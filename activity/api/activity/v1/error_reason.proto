@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package activity.v1;
+
+option go_package = "activity/api/activity/v1;v1";
+
+enum ErrorReason {
+  ACTIVITY_UNSPECIFIED = 0;
+  USER_NOT_FOUND = 1;
+}

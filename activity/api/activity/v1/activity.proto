@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package activity.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "activity/api/activity/v1;v1";
+
+// The greeting service definition.
+service Activity {
+  // Sends a greeting 
+  rpc GetSku (GetSkuRequest) returns (GetSkuReply) {
+    option (google.api.http) = {
+      get: "/getsku"
+    };
+  }
+}
+
+// The request message containing the user's name.
+message GetSkuRequest {
+  int32 pageNum = 1;
+  int32 pageSize = 2;
+}
+
+// The response message containing the greetings
+message GetSkuReply {
+  message StuBase  {
+    uint64 id = 1;
+    string name = 2;
+    int32 age = 3;
+    float score = 4;
+  }  
+  repeated StuBase studentList = 1;
+}
+
