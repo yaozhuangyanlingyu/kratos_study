@@ -29,6 +29,9 @@ func NewOrderRepo(data *Data, logger log.Logger) biz.OrderRepo {
 	}
 }
 
+/**
+ * 获取订单列表
+ */
 func (r *OrderRepo) ListAll(ctx context.Context, pageNum int64, pageSize int64) ([]*biz.Order, error) {
 	var os []Order
 	result := r.data.db.WithContext(ctx).

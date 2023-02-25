@@ -12,6 +12,7 @@ import (
 	"order/internal/data"
 	"order/internal/server"
 	"order/internal/service"
+	"order/internal/registry"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
@@ -20,19 +21,24 @@ import (
 // Injectors from wire.go:
 
 // wireApp init kratos application.
-func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
+func wireApp(confServer *conf.Server, confData *conf.Data, confRegistry *conf.Registry, logger log.Logger) (*kratos.App, func(), error) {
 	// 连接数据库
 	db := data.NewDB(confData, logger)
+
+	// 服务注册
+	consulRegistry := registry.NewConsulRegistry(confRegistry)
+
+	// 框架初始化
 	dataData, cleanup, err := data.NewData(db, logger)
 	if err != nil {
 		return nil, nil, err
 	}
 	OrderRepo := data.NewOrderRepo(dataData, logger)
 	OrderUsecase := biz.NewOrderUsecase(OrderRepo, logger)
-	OrderService := service.NewOrderService(OrderUsecase)
+	OrderService := service.NewOrderService(OrderUsecase, logger)
 	grpcServer := server.NewGRPCServer(confServer, OrderService, logger)
 	httpServer := server.NewHTTPServer(confServer, OrderService, logger)
-	app := newApp(logger, grpcServer, httpServer)
+	app := newApp(confServer, logger, grpcServer, httpServer, consulRegistry)
 	return app, func() {
 		cleanup()
 	}, nil

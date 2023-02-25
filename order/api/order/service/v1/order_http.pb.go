@@ -19,15 +19,21 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationOrderCreateOrder = "/order.service.v1.Order/CreateOrder"
+const OperationOrderGetConfig = "/order.service.v1.Order/GetConfig"
 const OperationOrderListOrder = "/order.service.v1.Order/ListOrder"
 
 type OrderHTTPServer interface {
+	CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderReply, error)
+	GetConfig(context.Context, *GetConfigRequest) (*GetConfigReply, error)
 	ListOrder(context.Context, *ListOrderRequest) (*ListOrderReply, error)
 }
 
 func RegisterOrderHTTPServer(s *http.Server, srv OrderHTTPServer) {
 	r := s.Route("/")
 	r.GET("/order/list", _Order_ListOrder0_HTTP_Handler(srv))
+	r.GET("/order/config", _Order_GetConfig0_HTTP_Handler(srv))
+	r.POST("/order/create", _Order_CreateOrder0_HTTP_Handler(srv))
 }
 
 func _Order_ListOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) error {
@@ -49,7 +55,47 @@ func _Order_ListOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) 
 	}
 }
 
+func _Order_GetConfig0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetConfigRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderGetConfig)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetConfig(ctx, req.(*GetConfigRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetConfigReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Order_CreateOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateOrderRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderCreateOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateOrder(ctx, req.(*CreateOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreateOrderReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type OrderHTTPClient interface {
+	CreateOrder(ctx context.Context, req *CreateOrderRequest, opts ...http.CallOption) (rsp *CreateOrderReply, err error)
+	GetConfig(ctx context.Context, req *GetConfigRequest, opts ...http.CallOption) (rsp *GetConfigReply, err error)
 	ListOrder(ctx context.Context, req *ListOrderRequest, opts ...http.CallOption) (rsp *ListOrderReply, err error)
 }
 
@@ -59,6 +105,32 @@ type OrderHTTPClientImpl struct {
 
 func NewOrderHTTPClient(client *http.Client) OrderHTTPClient {
 	return &OrderHTTPClientImpl{client}
+}
+
+func (c *OrderHTTPClientImpl) CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...http.CallOption) (*CreateOrderReply, error) {
+	var out CreateOrderReply
+	pattern := "/order/create"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationOrderCreateOrder))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *OrderHTTPClientImpl) GetConfig(ctx context.Context, in *GetConfigRequest, opts ...http.CallOption) (*GetConfigReply, error) {
+	var out GetConfigReply
+	pattern := "/order/config"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationOrderGetConfig))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
 }
 
 func (c *OrderHTTPClientImpl) ListOrder(ctx context.Context, in *ListOrderRequest, opts ...http.CallOption) (*ListOrderReply, error) {

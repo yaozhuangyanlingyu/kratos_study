@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
 
 	pb "order/api/order/service/v1"
@@ -13,11 +14,13 @@ var ProviderSet = wire.NewSet(NewOrderService)
 type OrderService struct {
 	pb.UnimplementedOrderServer
 
-	oc *biz.OrderUsecase
+	oc  *biz.OrderUsecase
+	log *log.Helper
 }
 
-func NewOrderService(oc *biz.OrderUsecase) *OrderService {
+func NewOrderService(oc *biz.OrderUsecase, logger log.Logger) *OrderService {
 	return &OrderService{
-		oc: oc,
+		oc:  oc,
+		log: log.NewHelper(logger),
 	}
 }
