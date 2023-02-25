@@ -6,11 +6,11 @@
 package main
 
 import (
-	"order/internal/biz"
-	"order/internal/conf"
-	"order/internal/data"
-	"order/internal/server"
-	"order/internal/service"
+	"github.com/yaozhuangyanlingyu/kratos_study/order/internal/biz"
+	"github.com/yaozhuangyanlingyu/kratos_study/order/internal/conf"
+	"github.com/yaozhuangyanlingyu/kratos_study/order/internal/data"
+	"github.com/yaozhuangyanlingyu/kratos_study/order/internal/server"
+	"github.com/yaozhuangyanlingyu/kratos_study/order/internal/service"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"

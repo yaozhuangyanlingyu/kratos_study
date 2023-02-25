@@ -4,7 +4,7 @@ import (
 	"flag"
 	"os"
 
-	"order/internal/conf"
+	"github.com/yaozhuangyanlingyu/kratos_study/order/internal/conf"
 
 	"github.com/go-kratos/kratos/contrib/registry/consul/v2"
 	"github.com/go-kratos/kratos/v2"

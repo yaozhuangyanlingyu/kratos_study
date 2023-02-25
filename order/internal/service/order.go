@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	pb "order/api/order/service/v1"
-	"order/internal/conf"
+	pb "github.com/yaozhuangyanlingyu/kratos_study/order/api/order/service/v1"
+	"github.com/yaozhuangyanlingyu/kratos_study/order/internal/conf"
 
 	"github.com/go-kratos/kratos/contrib/config/consul/v2"
 	"github.com/go-kratos/kratos/v2/config"

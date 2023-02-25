@@ -3,8 +3,8 @@ package data
 import (
 	"context"
 
-	"order/internal/biz"
-	"order/pkg/util/pagination"
+	"github.com/yaozhuangyanlingyu/kratos_study/order/internal/biz"
+	"github.com/yaozhuangyanlingyu/kratos_study/order/pkg/util/pagination"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"gorm.io/gorm"

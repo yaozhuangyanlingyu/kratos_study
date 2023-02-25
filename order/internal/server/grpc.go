@@ -1,9 +1,9 @@
 package server
 
 import (
-	v1 "order/api/order/service/v1"
-	"order/internal/conf"
-	"order/internal/service"
+	v1 "github.com/yaozhuangyanlingyu/kratos_study/order/api/order/service/v1"
+	"github.com/yaozhuangyanlingyu/kratos_study/order/internal/conf"
+	"github.com/yaozhuangyanlingyu/kratos_study/order/internal/service"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
