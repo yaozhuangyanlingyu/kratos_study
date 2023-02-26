@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package api.student.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "helloworld/api/student/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.student.v1";
+
+service StudentService {
+  rpc CreateStudent (CreateStudentRequest) returns (CreateStudentReply);
+  rpc ListStudent (ListStudentRequest) returns (ListStudentReply);
+}
+
+message StudentBase {
+  uint64 id = 1;
+  string name = 2;
+  int32 age = 3;
+  float score = 4;
+}
+
+message CreateStudentRequest {
+  string name = 1;
+  int32 age = 2;
+  float score = 3;
+}
+message CreateStudentReply {
+  StudentBase student = 1;
+}
+
+message ListStudentRequest {
+  int32 pageNum = 1;
+  int32 pageSize = 2;
+}
+message ListStudentReply {
+  repeated StudentBase studentList = 1;
+}
