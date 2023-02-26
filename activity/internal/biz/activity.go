@@ -2,8 +2,11 @@ package biz
 
 import (
 	"context"
+	"fmt"
 
-	v1 "activity/api/activity/v1"
+	v1 "github.com/yaozhuangyanlingyu/kratos_study/activity/api/activity/v1"
+
+	orderProto "ordersrv/api/order/service/v1"
 
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
@@ -16,10 +19,15 @@ var (
 
 type ActivityUsecase struct {
 	log *log.Helper
+
+	OrderRPC orderProto.OrderClient
 }
 
-func NewActivityUsecase(logger log.Logger) *ActivityUsecase {
-	return &ActivityUsecase{log: log.NewHelper(logger)}
+func NewActivityUsecase(logger log.Logger, OrderRpc orderProto.OrderClient) *ActivityUsecase {
+	return &ActivityUsecase{
+		log:      log.NewHelper(logger),
+		OrderRPC: OrderRpc,
+	}
 }
 
 /**
@@ -27,8 +35,19 @@ func NewActivityUsecase(logger log.Logger) *ActivityUsecase {
  */
 func (uc *ActivityUsecase) GetOrderList(ctx context.Context, orderID int64) error {
 	// 构建RPC请求
+	req := &orderProto.ListOrderRequest{
+		PageNum:  1,
+		PageSize: 10,
+		Uid:      46399747,
+	}
 
 	// 调用RPC接口，获取学生数据
-
+	rsp, err := uc.OrderRPC.ListOrder(ctx, req)
+	if err != nil {
+		panic(err)
+	}
+	for _, o := range rsp.Orders {
+		fmt.Println("OrderID：", o.Id, " UserID：", o.UserId)
+	}
 	return nil
 }

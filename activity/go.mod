@@ -1,16 +1,16 @@
-module activity
+module github.com/yaozhuangyanlingyu/kratos_study/activity
 
-go 1.17
+go 1.18
 
 require (
 	github.com/go-kratos/kratos/contrib/registry/consul/v2 v2.0.0-20230223102623-19f008b48379
-	github.com/go-kratos/kratos/v2 v2.5.3
+	github.com/go-kratos/kratos/v2 v2.5.4
 	github.com/google/wire v0.5.0
-	github.com/hashicorp/consul/api v1.18.0
+	github.com/hashicorp/consul/api v1.19.1
 	go.uber.org/automaxprocs v1.5.1
-	google.golang.org/genproto v0.0.0-20220524023933-508584e28198
-	google.golang.org/grpc v1.46.2
-	google.golang.org/protobuf v1.28.0
+	google.golang.org/genproto v0.0.0-20230223222841-637eb2293923
+	google.golang.org/grpc v1.53.0
+	google.golang.org/protobuf v1.28.1
 )
 
 require (
@@ -36,9 +36,12 @@ require (
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	go.opentelemetry.io/otel v1.7.0 // indirect
 	go.opentelemetry.io/otel/trace v1.7.0 // indirect
-	golang.org/x/net v0.0.0-20220520000938-2e3eb7b945c2 // indirect
+	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sync v0.0.0-20220513210516-0976fa681c29 // indirect
-	golang.org/x/sys v0.0.0-20220728004956-3c1f35247d10 // indirect
-	golang.org/x/text v0.3.7 // indirect
-	gopkg.in/yaml.v3 v3.0.0 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/text v0.7.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
+	ordersrv v1.0.0
 )
+
+replace ordersrv v1.0.0 => ../order

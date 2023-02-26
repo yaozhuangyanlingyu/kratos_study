@@ -1,9 +1,9 @@
 package server
 
 import (
-	v1 "activity/api/activity/v1"
-	"activity/internal/conf"
-	"activity/internal/service"
+	v1 "github.com/yaozhuangyanlingyu/kratos_study/activity/api/activity/v1"
+	"github.com/yaozhuangyanlingyu/kratos_study/activity/internal/conf"
+	"github.com/yaozhuangyanlingyu/kratos_study/activity/internal/service"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"

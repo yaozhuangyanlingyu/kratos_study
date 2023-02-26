@@ -50,6 +50,7 @@ func newApp(conf *conf.Server, logger log.Logger, gs *grpc.Server, hs *http.Serv
 }
 
 func main() {
+	// 初始化日志
 	flag.Parse()
 	logger := log.With(log.NewStdLogger(os.Stdout),
 		"ts", log.DefaultTimestamp,
@@ -60,6 +61,8 @@ func main() {
 		"trace.id", tracing.TraceID(),
 		"span.id", tracing.SpanID(),
 	)
+
+	// 配置初始化
 	c := config.New(
 		config.WithSource(
 			file.NewSource(flagconf),
@@ -76,6 +79,7 @@ func main() {
 		panic(err)
 	}
 
+	// 创建应用
 	app, cleanup, err := wireApp(bc.Server, bc.Data, bc.Registry, logger)
 	if err != nil {
 		panic(err)

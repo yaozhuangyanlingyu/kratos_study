@@ -7,10 +7,12 @@
 package main
 
 import (
-	"activity/internal/biz"
-	"activity/internal/conf"
-	"activity/internal/server"
-	"activity/internal/service"
+	"github.com/yaozhuangyanlingyu/kratos_study/activity/internal/biz"
+	"github.com/yaozhuangyanlingyu/kratos_study/activity/internal/client"
+	"github.com/yaozhuangyanlingyu/kratos_study/activity/internal/conf"
+	"github.com/yaozhuangyanlingyu/kratos_study/activity/internal/registry"
+	"github.com/yaozhuangyanlingyu/kratos_study/activity/internal/server"
+	"github.com/yaozhuangyanlingyu/kratos_study/activity/internal/service"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
@@ -19,8 +21,13 @@ import (
 // Injectors from wire.go:
 
 // wireApp init kratos application.
-func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
-	greeterUsecase := biz.NewActivityUsecase(logger)
+func wireApp(confServer *conf.Server, confRegistry *conf.Registry, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
+	consulRegistry := registry.NewConsulRegistry(confRegistry)
+	orderClient, err := client.NewOrderClient(consulRegistry, logger)
+	if err != nil {
+		return nil, nil, err
+	}
+	greeterUsecase := biz.NewActivityUsecase(logger, orderClient)
 	greeterService := service.NewGreeterService(greeterUsecase)
 	grpcServer := server.NewGRPCServer(confServer, greeterService, logger)
 	httpServer := server.NewHTTPServer(confServer, greeterService, logger)

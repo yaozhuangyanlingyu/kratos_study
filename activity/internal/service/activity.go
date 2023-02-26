@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	v1 "activity/api/activity/v1"
-	"activity/internal/biz"
+	v1 "github.com/yaozhuangyanlingyu/kratos_study/activity/api/activity/v1"
+	"github.com/yaozhuangyanlingyu/kratos_study/activity/internal/biz"
 )
 
 // GreeterService is a greeter service.
